@@ -6,7 +6,7 @@ public class trainTachographImpl {
 
     private Table<LocalDateTime, Integer, Integer> t_table;
 
-    public void TrainTachograph(){
+    public void trainTachographImpl(){
         t_table= HashBasedTable.create();
     }
 
