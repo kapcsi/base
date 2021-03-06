@@ -6,8 +6,8 @@ public class trainTachographImpl {
 
     private Table<LocalDateTime, Integer, Integer> t_table;
 
-    public void trainTachographImpl(){
-        t_table= HashBasedTable.create();
+    public trainTachographImpl(){
+        t_table= TreeBasedTable.create();
     }
 
     public void add(Integer joy_pos, Integer ref_spe){
