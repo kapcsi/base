@@ -72,7 +72,7 @@ public class TrainControllerImpl implements TrainController  {
 				}
 			} catch (InterruptedException e){
 				System.out.println("Thread " +  threadName + " interrupted.");
-				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 
 		}
