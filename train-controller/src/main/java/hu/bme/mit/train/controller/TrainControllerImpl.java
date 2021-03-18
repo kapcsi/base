@@ -9,6 +9,10 @@ public class TrainControllerImpl implements TrainController  {
 	private int speedLimit = 0;
 	public intervalSpeedChange myIntervalSpeedChange;
 
+	public void setReferenceSpeed(int referenceSpeed) {
+		this.referenceSpeed = referenceSpeed;
+	}
+
 	@Override
 	public void followSpeed() {
 		if (referenceSpeed < 0) {

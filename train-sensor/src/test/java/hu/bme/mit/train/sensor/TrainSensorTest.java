@@ -1,31 +1,50 @@
 package hu.bme.mit.train.sensor;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import hu.bme.mit.train.interfaces.TrainController;
-import hu.bme.mit.train.interfaces.TrainSensor;
-import hu.bme.mit.train.interfaces.TrainUser;
+import static org.mockito.Mockito.*;
 import hu.bme.mit.train.user.TrainUserImpl;
 import hu.bme.mit.train.controller.TrainControllerImpl;
 
 public class TrainSensorTest {
-    TrainSensor sensor;
-    TrainUser user;
-    TrainController ctr;
+    TrainSensorImpl sensor;
+    TrainUserImpl mockUser;
+    TrainControllerImpl mockCtr;
 
 
     @Before
-    public void before(){
-        ctr = new TrainControllerImpl(); // createing enviroment
-        user = new TrainUserImpl(ctr);
-        sensor = new TrainSensorImpl(ctr, user);
+    public void before(){// createing enviroment
+        mockUser =  mock(TrainUserImpl.class);
+        mockCtr = mock(TrainControllerImpl.class);
+        sensor= new TrainSensorImpl( mockCtr,mockUser);
+        when(mockCtr.getReferenceSpeed()).thenReturn(200);
     }
 
     @Test
-    public void ThisIsAnExampleTestStub() {
-        sensor.overrideSpeedLimit(200); //speeding up to 200
-        Assert.assertEquals(200, sensor.getSpeedLimit()); //checking speed.
+    public void TryingToSetSpeedLimitToUnderLimit_SetAlarmStateReturnsTrue(){ //testing Absolute margin lower boundary
+        sensor.overrideSpeedLimit(-2);
+        verify(mockUser).setAlarmState(true);
+    }
+    @Test
+    public void TryingToSetSpeedLimitToOverLimit_SetAlarmStateReturnsTrue() { //testing Absolute margin upper boundary
+        sensor.overrideSpeedLimit(501);
+        verify(mockUser).setAlarmState(true);
+    }
+    @Test
+    public void TryingToSetSpeedLimitToLessThan50Percent_SetAlarmStateReturnsTrue(){ // testing relative margin
+        sensor.overrideSpeedLimit(90);
+        verify(mockUser).setAlarmState(true);
+    }
+    @Test
+    public void TryingToSetSpeedLimitToCorrectValue_SetAlarmStateReturnsFalse(){
+        sensor.overrideSpeedLimit(190);
+        verify(mockUser, times(0)).setAlarmState(true); // should not have been called
+        verify(mockUser, times(0)).setAlarmState(false);// should not have been called
+    }
+    public void TryingToSetSpeedLimitToCorrectValue_SetAlarmStateReturnsFalse(){
+        sensor.overrideSpeedLimit(190);
+        verify(mockUser, times(0)).setAlarmState(true); // should not have been called
+        verify(mockUser, times(0)).setAlarmState(false);// should not have been called
     }
 }
