@@ -42,9 +42,5 @@ public class TrainSensorTest {
         verify(mockUser, times(0)).setAlarmState(true); // should not have been called
         verify(mockUser, times(0)).setAlarmState(false);// should not have been called
     }
-    public void TryingToSetSpeedLimitToCorrectValue_SetAlarmStateReturnsFalse(){
-        sensor.overrideSpeedLimit(190);
-        verify(mockUser, times(0)).setAlarmState(true); // should not have been called
-        verify(mockUser, times(0)).setAlarmState(false);// should not have been called
-    }
+
 }
